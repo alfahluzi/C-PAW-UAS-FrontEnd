@@ -114,19 +114,19 @@ function AdminProductCard() {
     );
   }
   return (
-    <div className="w-60 h-80 m-2  bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-[19vw] h-80 m-2 mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
       {modal}
       <a href="#">
         <img
-          className="p-4 rounded-t-lg w-60 h-40"
+          className="object-cover p-4 rounded-t-lg w-[100%] h-44"
           src="https://www.apple.com/id/apple-watch-se/images/overview/hero/hero__fmx18j9bq0ya_large.jpg"
           alt="product image"
         />
       </a>
       <div className="px-5 pb-5">
-        <div className="h-16 container">
+        <div className="h-[54px] container">
           <a href="#">
-            <h5 className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
+            <h5 className="text-base lg:text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
               Apple Watch Series 7 GPS
             </h5>
           </a>
@@ -187,7 +187,7 @@ function AdminProductCard() {
           </span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-lg font-bold text-gray-900 dark:text-white">
+          <span className="text-base lg:text-lg font-bold text-gray-900 dark:text-white">
             Rp5.990.000
           </span>
           <button
