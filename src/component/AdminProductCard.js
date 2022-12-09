@@ -31,81 +31,126 @@ function AdminProductCard() {
             </button>
             <div className="px-6 py-6 lg:px-8">
               <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-                Sign in to our platform
+                Edit Produk
               </h3>
               <form className="space-y-6" action="#">
                 <div>
                   <label
-                    for="email"
+                    for="nama-produk"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Your email
+                    Nama Produk
                   </label>
                   <input
-                    type="email"
-                    name="email"
-                    id="email"
+                    type="text"
+                    name="nama-produk"
+                    id="nama-produk"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    placeholder="name@company.com"
+                    placeholder="apa kek yang keren"
                     required
                   />
                 </div>
                 <div>
                   <label
-                    for="password"
+                    for="detail-produk"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Your password
+                    Detail
                   </label>
                   <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="••••••••"
+                    type="text"
+                    name="detail-produk"
+                    id="detail-produk"
+                    placeholder="seterah jangan panjang panjang"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     required
                   />
                 </div>
                 <div className="flex justify-between">
-                  <div className="flex items-start">
-                    <div className="flex items-center h-5">
-                      <input
-                        id="remember"
-                        type="checkbox"
-                        value=""
-                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                        required
-                      />
-                    </div>
+                  <div>
                     <label
-                      for="remember"
-                      className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                      for="kuantitas-produk"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Remember me
+                      Kuantitas
                     </label>
+                    <input
+                      type="number"
+                      name="kuantitas-produk"
+                      id="kuantitas-produk"
+                      placeholder="jangan kebanyakan"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                      required
+                    />
                   </div>
-                  <a
-                    href="#"
-                    className="text-sm text-blue-700 hover:underline dark:text-blue-500"
-                  >
-                    Lost Password?
-                  </a>
+                  <div>
+                    <label
+                      for="harga-produk"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Harga
+                    </label>
+                    <input
+                      type="number"
+                      name="harga-produk"
+                      id="harga-produk"
+                      placeholder="jangan kemahalan"
+                      className="bg-gray-50 border border-gray-300 
+                      text-gray-900 text-sm rounded-lg 
+                      focus:ring-blue-500 focus:border-blue-500 
+                      block w-full p-2.5 
+                      dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <div className="mr-3">
+                    <label
+                      for="jenis-produk"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Jenis
+                    </label>
+                    <select
+                      id="jenis-produk"
+                      className="bg-gray-50 border border-gray-300 
+                      text-gray-900 text-sm rounded-lg block w-full p-2.5 
+                      focus:ring-blue-500 focus:border-blue-500 
+                      dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
+                      <option selected disabled>
+                        Pilih Jenis
+                      </option>
+                      <option value="US">United States</option>
+                      <option value="CA">Canada</option>
+                      <option value="FR">France</option>
+                      <option value="DE">Germany</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      for="file_input"
+                    >
+                      Foto
+                    </label>
+                    <input
+                      id="file_input"
+                      type="file"
+                      className="block w-full text-sm text-gray-900 border border-gray-300 
+                      rounded-lg cursor-pointer bg-gray-50 p-2
+                      dark:text-gray-400 focus:outline-none dark:bg-gray-700 
+                      dark:border-gray-600 dark:placeholder-gray-400"
+                    />
+                  </div>
                 </div>
                 <button
                   type="submit"
                   className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
-                  Login to your account
+                  Simpan
                 </button>
-                <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Not registered?{" "}
-                  <a
-                    href="#"
-                    className="text-blue-700 hover:underline dark:text-blue-500"
-                  >
-                    Create account
-                  </a>
-                </div>
               </form>
             </div>
           </div>
