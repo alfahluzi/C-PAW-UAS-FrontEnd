@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Dashboard from "./page/admin/Dashboard";
 import ManageCategory from "./page/admin/ManageCategory";
 import Product from "./page/admin/Product";
+import Transaction from "./page/admin/Transaction";
 import "./style/App.css";
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" />
         <Route path="/administration" element={<Dashboard />} />
+        <Route path="/administration-transaction" element={<Transaction />} />
         <Route path="/administration-product" element={<Product />} />
         <Route
           path="/administration-product-category"

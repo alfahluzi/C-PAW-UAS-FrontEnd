@@ -1,21 +1,23 @@
 import create from "zustand";
 
 const StateContainer = create((set) => ({
-  pokemons: [],
-  addPokemons: (pokemon) =>
+  jenisBarang: [], //////////////////////////////////
+  addJenisBarang: (data) =>
     set((state) => ({
-      pokemons: [
-        {
-          name: pokemon.name,
-          image: pokemon.image,
-          introduction: pokemon.introduction,
-        },
-        ...state.pokemons,
-      ],
+      jenisBarang: [data, ...state.jenisBarang],
     })),
-  removePokemon: (name) =>
+  resetJenisBarang: () =>
     set((state) => ({
-      pokemons: state.pokemons.filter((pokemon) => pokemon.name !== name),
+      jenisBarang: [],
+    })),
+  kategoriBarang: [], //////////////////////////////////
+  addKategoriBarang: (data) =>
+    set((state) => ({
+      kategoriBarang: [data, ...state.kategoriBarang],
+    })),
+  resetKategoriBarang: () =>
+    set((state) => ({
+      kategoriBarang: [],
     })),
 }));
-export default StateStore;
+export default StateContainer;

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AdminSidebar from "../../component/AdminSidebar";
-
+import StateContainer from "../../helper/StateContainer";
+import axios from "axios";
 function ManageCategory() {
   const [editJenisModalStatus, setEditJenisModalStatus] = useState({
     status: false,
@@ -15,17 +16,23 @@ function ManageCategory() {
   const [tambahKategoriModalStatus, setTambahKategoriModalStatus] =
     useState(false);
 
-  let kategori = [
-    { nama: "Konsumsi", jumlah_jenis: "3", jumlah_barang: "14" },
-    { nama: "Koleksi", jumlah_jenis: "5", jumlah_barang: "12" },
-    { nama: "Koleksi", jumlah_jenis: "5", jumlah_barang: "12" },
-    { nama: "Koleksi", jumlah_jenis: "5", jumlah_barang: "12" },
-  ];
-  let jenis = [
-    { nama: "Makanan", kategori: "Konsumsi", jumlah_barang: "5" },
-    { nama: "Minuman", kategori: "Konsumsi", jumlah_barang: "7" },
-  ];
+  const addJenisBarang = StateContainer((state) => state.addJenisBarang);
+  const addKategoriBarang = StateContainer((state) => state.addKategoriBarang);
+  let jenis = StateContainer((state) => state.jenisBarang[0]);
+  let kategori = StateContainer((state) => state.kategoriBarang[0]);
 
+  useEffect(() => {
+    axios.get("http://localhost:4000/jenis-barang").then((response) => {
+      addJenisBarang(response.data);
+    });
+    axios.get("http://localhost:4000/kategori-barang").then((response) => {
+      addKategoriBarang(response.data);
+    });
+  }, []);
+
+  console.log(jenis);
+  console.log(kategori);
+  if (jenis == undefined || kategori == undefined) return;
   let editJenisModal = "";
   let editKategoriModal = "";
   let tambahJenisModal = "";
@@ -82,21 +89,27 @@ function ManageCategory() {
                     required
                   />
                 </div>
-                <div>
+                <div className="mr-3">
                   <label
-                    for="kategori"
+                    for="jenis-produk"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Kategori
                   </label>
-                  <input
-                    type="text"
-                    name="kategori"
-                    id="kategori"
-                    placeholder={editJenisModalStatus.category}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    required
-                  />
+                  <select
+                    id="jenis-produk"
+                    className="bg-gray-50 border border-gray-300 
+                      text-gray-900 text-sm rounded-lg block w-full p-2.5 
+                      focus:ring-blue-500 focus:border-blue-500 
+                      dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option selected disabled>
+                      Pilih Jenis
+                    </option>
+                    {kategori.map((kat, index) => {
+                      return <option value={kat.id}>{kat.kategori}</option>;
+                    })}
+                  </select>
                 </div>
 
                 <button
@@ -219,21 +232,27 @@ function ManageCategory() {
                     required
                   />
                 </div>
-                <div>
+                <div className="mr-3">
                   <label
-                    for="kategori-tambah-jenis"
+                    for="jenis-produk"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Kategori
                   </label>
-                  <input
-                    type="text"
-                    name="kategori-tambah-jenis"
-                    id="kategori-tambah-jenis"
-                    placeholder="yang ada aja"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    required
-                  />
+                  <select
+                    id="jenis-produk"
+                    className="bg-gray-50 border border-gray-300 
+                      text-gray-900 text-sm rounded-lg block w-full p-2.5 
+                      focus:ring-blue-500 focus:border-blue-500 
+                      dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option selected disabled>
+                      Pilih Jenis
+                    </option>
+                    {kategori.map((kat, index) => {
+                      return <option value={kat.id}>{kat.kategori}</option>;
+                    })}
+                  </select>
                 </div>
 
                 <button
@@ -384,16 +403,16 @@ function ManageCategory() {
                         >
                           {i + 1}
                         </th>
-                        <td class="py-4 px-6">{jen.nama}</td>
+                        <td class="py-4 px-6">{jen.jenis}</td>
                         <td class="py-4 px-6">{jen.kategori}</td>
-                        <td class="py-4 px-6">{jen.jumlah_barang}</td>
+                        <td class="py-4 px-6">{jen.jumlah}</td>
                         <td class="py-4 px-6 text-right">
                           <a
                             href="#"
                             onClick={() =>
                               setEditJenisModalStatus({
                                 status: true,
-                                name: jen.nama,
+                                name: jen.jenis,
                                 category: jen.kategori,
                               })
                             }
@@ -454,16 +473,16 @@ function ManageCategory() {
                         >
                           {i + 1}
                         </th>
-                        <td class="py-4 px-6">{kat.nama}</td>
+                        <td class="py-4 px-6">{kat.kategori}</td>
                         <td class="py-4 px-6">{kat.jumlah_jenis}</td>
-                        <td class="py-4 px-6">{kat.jumlah_barang}</td>
+                        <td class="py-4 px-6">{kat.jumlah_produk}</td>
                         <td class="py-4 px-6 text-right">
                           <a
                             href="#"
                             onClick={() =>
                               setEditKategoriModalStatus({
                                 status: true,
-                                name: kat.nama,
+                                name: kat.kategori,
                               })
                             }
                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline"

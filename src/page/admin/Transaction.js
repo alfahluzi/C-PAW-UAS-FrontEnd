@@ -1,7 +1,7 @@
 import React from "react";
 import AdminSidebar from "../../component/AdminSidebar";
 
-function Dashboard() {
+function Transaction() {
   return (
     <div className="flex flex-row">
       <AdminSidebar />
@@ -9,4 +9,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Transaction;

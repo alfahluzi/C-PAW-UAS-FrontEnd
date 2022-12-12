@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import StateContainer from "../helper/StateContainer";
 
-function AdminProductCard() {
+function AdminProductCard({ harga, kuantitas, nama, detail }) {
   let modal = "";
   const [modalStatus, setmodalStatus] = useState(false);
+  const jenisBarang = StateContainer((state) => state.jenisBarang[0]);
 
   if (modalStatus) {
     modal = (
@@ -46,7 +48,7 @@ function AdminProductCard() {
                     name="nama-produk"
                     id="nama-produk"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    placeholder="apa kek yang keren"
+                    placeholder={nama}
                     required
                   />
                 </div>
@@ -61,7 +63,7 @@ function AdminProductCard() {
                     type="text"
                     name="detail-produk"
                     id="detail-produk"
-                    placeholder="seterah jangan panjang panjang"
+                    placeholder={detail}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     required
                   />
@@ -78,7 +80,7 @@ function AdminProductCard() {
                       type="number"
                       name="kuantitas-produk"
                       id="kuantitas-produk"
-                      placeholder="jangan kebanyakan"
+                      placeholder={kuantitas}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                       required
                     />
@@ -94,7 +96,7 @@ function AdminProductCard() {
                       type="number"
                       name="harga-produk"
                       id="harga-produk"
-                      placeholder="jangan kemahalan"
+                      placeholder={harga}
                       className="bg-gray-50 border border-gray-300 
                       text-gray-900 text-sm rounded-lg 
                       focus:ring-blue-500 focus:border-blue-500 
@@ -122,10 +124,13 @@ function AdminProductCard() {
                       <option selected disabled>
                         Pilih Jenis
                       </option>
-                      <option value="US">United States</option>
-                      <option value="CA">Canada</option>
-                      <option value="FR">France</option>
-                      <option value="DE">Germany</option>
+                      {jenisBarang.map((jenis, index) => {
+                        return (
+                          <option value={jenis.Jenis_barang_id}>
+                            {jenis.jenis}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
                   <div>
@@ -172,69 +177,23 @@ function AdminProductCard() {
         <div className="h-[54px] container">
           <a href="#">
             <h5 className="text-base lg:text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
-              Apple Watch Series 7 GPS
+              {nama}
             </h5>
           </a>
         </div>
         <div className="flex items-center mt-2.5 mb-3">
-          <svg
-            aria-hidden="true"
-            className="w-3 h-3 text-yellow-300"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>First star</title>
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-          </svg>
-          <svg
-            aria-hidden="true"
-            className="w-3 h-3 text-yellow-300"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Second star</title>
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-          </svg>
-          <svg
-            aria-hidden="true"
-            className="w-3 h-3 text-yellow-300"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Third star</title>
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-          </svg>
-          <svg
-            aria-hidden="true"
-            className="w-3 h-3 text-yellow-300"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Fourth star</title>
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-          </svg>
-          <svg
-            aria-hidden="true"
-            className="w-3 h-3 text-yellow-300"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Fifth star</title>
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-          </svg>
+          <span className="text-sm lg:text-base  text-gray-900 dark:text-white">
+            Stok {kuantitas}
+          </span>
           <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
             5.0
           </span>
         </div>
         <div className="flex items-center justify-between">
           <span className="text-base lg:text-lg font-bold text-gray-900 dark:text-white">
-            Rp5.990.000
+            Rp{harga}
           </span>
+
           <button
             type="button"
             onClick={() => setmodalStatus(true)}

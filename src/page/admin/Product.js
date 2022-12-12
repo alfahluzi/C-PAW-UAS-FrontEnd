@@ -1,9 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AdminSidebar from "../../component/AdminSidebar";
 import AdminProductCard from "../../component/AdminProductCard";
+import axios from "axios";
+import StateContainer from "../../helper/StateContainer";
 
 function Product() {
   const [modalStatus, setmodalStatus] = useState(false);
+  const [listProduk, setlistProduk] = useState([]);
+  const addJenisBarang = StateContainer((state) => state.addJenisBarang);
+  const addKategoriBarang = StateContainer((state) => state.addKategoriBarang);
+  const jenisBarang = StateContainer((state) => state.jenisBarang[0]);
+  useEffect(() => {
+    axios.get("http://localhost:4000/barang").then((response) => {
+      setlistProduk(response.data);
+    });
+    axios.get("http://localhost:4000/jenis-barang").then((response) => {
+      addJenisBarang(response.data);
+    });
+    axios.get("http://localhost:4000/kategori-barang").then((response) => {
+      addKategoriBarang(response.data);
+    });
+  }, []);
 
   let modal = "";
   if (modalStatus) {
@@ -124,10 +141,13 @@ function Product() {
                       <option selected disabled>
                         Pilih Jenis
                       </option>
-                      <option value="US">United States</option>
-                      <option value="CA">Canada</option>
-                      <option value="FR">France</option>
-                      <option value="DE">Germany</option>
+                      {jenisBarang.map((jenis, index) => {
+                        return (
+                          <option value={jenis.Jenis_barang_id}>
+                            {jenis.jenis}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
                   <div>
@@ -163,14 +183,25 @@ function Product() {
   return (
     <div className="flex flex-row relative">
       <AdminSidebar />
-
       {modal}
       <div className="w-full ml-64">
         <div className="m-3 flex">
-          <h5 className="text-3xl font-semibold tracking-tight text-gray-900 dark:text-black">
-            Product List
-          </h5>
-          <div className="flex-auto mx-5">
+          <div className="inline-flex rounded-md shadow-sm">
+            <a
+              href="/administration-product-category"
+              aria-current="page"
+              className="py-2 px-4 text-sm font-medium text-blue-700 bg-white rounded-l-lg border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+            >
+              Manage Category
+            </a>
+            <a
+              onClick={() => setmodalStatus(true)}
+              className="py-2 px-4 text-sm font-medium text-gray-900 bg-white rounded-r-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+            >
+              Add Product
+            </a>
+          </div>
+          <div className="flex-auto ml-5">
             <form>
               <label
                 for="default-search"
@@ -212,36 +243,21 @@ function Product() {
               </div>
             </form>
           </div>
-          <div className="inline-flex rounded-md shadow-sm">
-            <a
-              href="/administration-product-category"
-              aria-current="page"
-              className="py-2 px-4 text-sm font-medium text-blue-700 bg-white rounded-l-lg border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
-            >
-              Manage Category
-            </a>
-            <a
-              onClick={() => setmodalStatus(true)}
-              className="py-2 px-4 text-sm font-medium text-gray-900 bg-white rounded-r-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
-            >
-              Add Product
-            </a>
-          </div>
         </div>
 
         <div className="flex flex-wrap ">
-          <AdminProductCard />
-          <AdminProductCard />
-          <AdminProductCard />
-          <AdminProductCard />
-          <AdminProductCard />
-          <AdminProductCard />
-          <AdminProductCard />
-          <AdminProductCard />
-          <AdminProductCard />
-          <AdminProductCard />
-          <AdminProductCard />
-          <AdminProductCard />
+          {listProduk &&
+            listProduk.map((produk, index) => {
+              return (
+                <AdminProductCard
+                  key={index}
+                  harga={produk.harga}
+                  nama={produk.nama}
+                  kuantitas={produk.kuantitas}
+                  detail={produk.detail}
+                />
+              );
+            })}
         </div>
       </div>
     </div>
