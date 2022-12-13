@@ -4,7 +4,7 @@ import AdminSidebar from "../../component/AdminSidebar";
 function Dashboard() {
   return (
     <div className="flex flex-row">
-      <AdminSidebar />
+      <AdminSidebar key={1} />
     </div>
   );
 }

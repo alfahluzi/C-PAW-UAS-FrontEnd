@@ -182,7 +182,7 @@ function Product() {
   }
   return (
     <div className="flex flex-row relative">
-      <AdminSidebar />
+      <AdminSidebar key={1} />
       {modal}
       <div className="w-full ml-64">
         <div className="m-3 flex">
