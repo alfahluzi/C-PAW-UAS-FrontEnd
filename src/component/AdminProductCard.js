@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import StateContainer from "../helper/StateContainer";
-
+import Alert from "./Alert";
 function AdminProductCard({ harga, kuantitas, nama, detail }) {
   let modal = "";
   const [modalStatus, setmodalStatus] = useState(false);
   const jenisBarang = StateContainer((state) => state.jenisBarang[0]);
-
+  const [alert, setAlert] = useState({
+    status: false,
+    message: "",
+    positive: () => {},
+    negative: () => {},
+  });
   if (modalStatus) {
     modal = (
       <div
-        tabindex="-1"
+        tabIndex="-1"
         className="fixed bg-black bg-opacity-80 mx-auto top-0 left-0 right-0 bottom-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
       >
         <div className="absolute right-0 left-0 mx-auto top-[10%] max-w-md md:h-auto">
@@ -38,7 +43,7 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
               <form className="space-y-6" action="#">
                 <div>
                   <label
-                    for="nama-produk"
+                    htmlFor="nama-produk"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Nama Produk
@@ -54,7 +59,7 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
                 </div>
                 <div>
                   <label
-                    for="detail-produk"
+                    htmlFor="detail-produk"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Detail
@@ -71,7 +76,7 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
                 <div className="flex justify-between">
                   <div>
                     <label
-                      for="kuantitas-produk"
+                      htmlFor="kuantitas-produk"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Kuantitas
@@ -87,7 +92,7 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
                   </div>
                   <div>
                     <label
-                      for="harga-produk"
+                      htmlFor="harga-produk"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Harga
@@ -109,7 +114,7 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
                 <div className="flex justify-between">
                   <div className="mr-3">
                     <label
-                      for="jenis-produk"
+                      htmlFor="jenis-produk"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Jenis
@@ -136,7 +141,7 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
                   <div>
                     <label
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      for="file_input"
+                      htmlFor="file_input"
                     >
                       Foto
                     </label>
@@ -150,12 +155,36 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
                     />
                   </div>
                 </div>
-                <button
-                  type="submit"
-                  className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Simpan
-                </button>
+                <div className="flex justify-between">
+                  <button
+                    onClick={() => {
+                      setAlert({
+                        status: true,
+                        message: "Yakin ingin Hapus?",
+                        positive: () => {
+                          console.log("hapus");
+                        },
+                        negative: () => {
+                          setAlert({
+                            status: false,
+                            message: "",
+                            positive: () => {},
+                            negative: () => {},
+                          });
+                        },
+                      });
+                    }}
+                    className="w-[48%] text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                  >
+                    Hapus
+                  </button>
+                  <button
+                    type="submit"
+                    className="w-[48%] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    Simpan
+                  </button>
+                </div>
               </form>
             </div>
           </div>
@@ -166,6 +195,16 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
   return (
     <div className="w-[19vw] h-80 m-2 mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
       {modal}
+      {alert.status ? (
+        <Alert
+          key={1}
+          alertMessage={alert.message}
+          positiveCallBack={alert.positive}
+          negativeCallBack={alert.negative}
+        />
+      ) : (
+        ""
+      )}
       <a href="#">
         <img
           className="object-cover p-4 rounded-t-lg w-[100%] h-44"

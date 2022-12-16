@@ -19,5 +19,14 @@ const StateContainer = create((set) => ({
     set((state) => ({
       kategoriBarang: [],
     })),
+  log: [], //////////////////////////////////
+  addLog: (data) =>
+    set((state) => ({
+      log: [data, ...state.log],
+    })),
+  resetLog: () =>
+    set((state) => ({
+      log: [],
+    })),
 }));
 export default StateContainer;

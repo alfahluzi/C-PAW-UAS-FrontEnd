@@ -6,14 +6,26 @@ import StateContainer from "../../helper/StateContainer";
 
 function Product() {
   const [modalStatus, setmodalStatus] = useState(false);
-  const [listProduk, setlistProduk] = useState([]);
+  const [listProduk, setlistProduk] = useState({ first: true, data: [] });
+  const [newProduct, setNewProduct] = useState({
+    nama: "",
+    detail: "",
+    kuantitas: 0,
+    harga: 0,
+    id_jenis: 0,
+    file: undefined,
+  });
+
   const addJenisBarang = StateContainer((state) => state.addJenisBarang);
   const addKategoriBarang = StateContainer((state) => state.addKategoriBarang);
   const jenisBarang = StateContainer((state) => state.jenisBarang[0]);
-  useEffect(() => {
+
+  if (listProduk.first) {
     axios.get("http://localhost:4000/barang").then((response) => {
-      setlistProduk(response.data);
+      setlistProduk({ first: false, data: response.data });
     });
+  }
+  useEffect(() => {
     axios.get("http://localhost:4000/jenis-barang").then((response) => {
       addJenisBarang(response.data);
     });
@@ -21,12 +33,12 @@ function Product() {
       addKategoriBarang(response.data);
     });
   }, []);
-
+  console.log(newProduct);
   let modal = "";
   if (modalStatus) {
     modal = (
       <div
-        tabindex="-1"
+        tabIndex="-1"
         className="fixed bg-black bg-opacity-80 mx-auto top-0 left-0 right-0 bottom-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
       >
         <div className="absolute right-0 left-0 mx-auto top-[10%] max-w-md md:h-auto">
@@ -52,15 +64,47 @@ function Product() {
               <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
                 Tambah Produk
               </h3>
-              <form className="space-y-6" action="#">
+              <form
+                className="space-y-6"
+                onSubmit={(event) => {
+                  const formData = new FormData();
+                  formData.append("nama", newProduct.nama);
+                  formData.append("detail", newProduct.detail);
+                  formData.append("kuantitas", newProduct.kuantitas);
+                  formData.append("harga", newProduct.harga);
+                  formData.append("id_jenis", newProduct.id_jenis);
+                  formData.append("file", newProduct.file);
+                  axios.post(`http://localhost:4000/tambah-produk`, formData);
+
+                  let asd = {
+                    nama: newProduct.nama,
+                    detail: newProduct.detail,
+                    kuantitas: newProduct.kuantitas,
+                    harga: newProduct.harga,
+                    id_jenis: newProduct.id_jenis,
+                    file: newProduct.file,
+                  };
+                }}
+              >
                 <div>
                   <label
-                    for="nama-produk"
+                    htmlFor="nama-produk"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Nama Produk
                   </label>
                   <input
+                    onChange={(event) => {
+                      let val = event.target.value;
+                      setNewProduct({
+                        nama: val,
+                        detail: newProduct.detail,
+                        kuantitas: newProduct.kuantitas,
+                        harga: newProduct.harga,
+                        id_jenis: newProduct.id_jenis,
+                        file: newProduct.file,
+                      });
+                    }}
                     type="text"
                     name="nama-produk"
                     id="nama-produk"
@@ -71,12 +115,23 @@ function Product() {
                 </div>
                 <div>
                   <label
-                    for="detail-produk"
+                    htmlFor="detail-produk"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Detail
                   </label>
                   <input
+                    onChange={(event) => {
+                      let val = event.target.value;
+                      setNewProduct({
+                        nama: newProduct.nama,
+                        detail: val,
+                        kuantitas: newProduct.kuantitas,
+                        harga: newProduct.harga,
+                        id_jenis: newProduct.id_jenis,
+                        file: newProduct.file,
+                      });
+                    }}
                     type="text"
                     name="detail-produk"
                     id="detail-produk"
@@ -88,12 +143,23 @@ function Product() {
                 <div className="flex justify-between">
                   <div>
                     <label
-                      for="kuantitas-produk"
+                      htmlFor="kuantitas-produk"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Kuantitas
                     </label>
                     <input
+                      onChange={(event) => {
+                        let val = event.target.value;
+                        setNewProduct({
+                          nama: newProduct.nama,
+                          detail: newProduct.detail,
+                          kuantitas: val,
+                          harga: newProduct.harga,
+                          id_jenis: newProduct.id_jenis,
+                          file: newProduct.file,
+                        });
+                      }}
                       type="number"
                       name="kuantitas-produk"
                       id="kuantitas-produk"
@@ -104,12 +170,23 @@ function Product() {
                   </div>
                   <div>
                     <label
-                      for="harga-produk"
+                      htmlFor="harga-produk"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Harga
                     </label>
                     <input
+                      onChange={(event) => {
+                        let val = event.target.value;
+                        setNewProduct({
+                          nama: newProduct.nama,
+                          detail: newProduct.detail,
+                          kuantitas: newProduct.kuantitas,
+                          harga: val,
+                          id_jenis: newProduct.id_jenis,
+                          file: newProduct.file,
+                        });
+                      }}
                       type="number"
                       name="harga-produk"
                       id="harga-produk"
@@ -126,12 +203,23 @@ function Product() {
                 <div className="flex justify-between">
                   <div className="mr-3">
                     <label
-                      for="jenis-produk"
+                      htmlFor="jenis-produk"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Jenis
                     </label>
                     <select
+                      onChange={(event) => {
+                        let val = event.target.value;
+                        setNewProduct({
+                          nama: newProduct.nama,
+                          detail: newProduct.detail,
+                          kuantitas: newProduct.kuantitas,
+                          harga: newProduct.harga,
+                          id_jenis: val,
+                          file: newProduct.file,
+                        });
+                      }}
                       id="jenis-produk"
                       className="bg-gray-50 border border-gray-300 
                       text-gray-900 text-sm rounded-lg block w-full p-2.5 
@@ -142,22 +230,30 @@ function Product() {
                         Pilih Jenis
                       </option>
                       {jenisBarang.map((jenis, index) => {
-                        return (
-                          <option value={jenis.Jenis_barang_id}>
-                            {jenis.jenis}
-                          </option>
-                        );
+                        return <option value={jenis.id}>{jenis.jenis}</option>;
                       })}
                     </select>
                   </div>
                   <div>
                     <label
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      for="file_input"
+                      htmlFor="file_input"
                     >
                       Foto
                     </label>
                     <input
+                      onChange={(event) => {
+                        let val = event.target.files[0];
+                        console.log(val);
+                        setNewProduct({
+                          nama: newProduct.nama,
+                          detail: newProduct.detail,
+                          kuantitas: newProduct.kuantitas,
+                          harga: newProduct.harga,
+                          id_jenis: newProduct.id_jenis,
+                          file: val,
+                        });
+                      }}
                       id="file_input"
                       type="file"
                       className="block w-full text-sm text-gray-900 border border-gray-300 
@@ -204,7 +300,7 @@ function Product() {
           <div className="flex-auto ml-5">
             <form>
               <label
-                for="default-search"
+                htmlFor="default-search"
                 className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
               >
                 Search
@@ -220,34 +316,50 @@ function Product() {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                     ></path>
                   </svg>
                 </div>
                 <input
+                  onChange={(event) => {
+                    let val = event.target.value;
+                    if (val) {
+                      axios
+                        .get(`http://localhost:4000/cari-barang/${val}`)
+                        .then((response) => {
+                          setlistProduk({
+                            first: listProduk.first,
+                            data: response.data,
+                          });
+                        });
+                    } else {
+                      axios
+                        .get(`http://localhost:4000/barang/`)
+                        .then((response) => {
+                          setlistProduk({
+                            first: listProduk.first,
+                            data: response.data,
+                          });
+                        });
+                    }
+                  }}
                   type="search"
                   id="default-search"
                   className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Search items..."
                   required
                 />
-                <button
-                  type="submit"
-                  className="text-white absolute right-2.5 bottom-1 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Search
-                </button>
               </div>
             </form>
           </div>
         </div>
 
         <div className="flex flex-wrap ">
-          {listProduk &&
-            listProduk.map((produk, index) => {
+          {listProduk.data &&
+            listProduk.data.map((produk, index) => {
               return (
                 <AdminProductCard
                   key={index}

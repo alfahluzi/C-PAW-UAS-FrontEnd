@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import AdminSidebar from "../../component/AdminSidebar";
 import StateContainer from "../../helper/StateContainer";
 import axios from "axios";
+import Alert from "../../component/Alert";
 class KategoriBarang {
   constructor(id, nama) {
     this.id = id;
     this.nama = nama;
   }
 }
-
 class JenisBarang {
   constructor(id, jenis, kategori_id) {
     this.id = id;
@@ -35,19 +35,28 @@ function ManageCategory() {
     status: false,
     newKategori: "",
   });
-
+  const [alert, setAlert] = useState({
+    isActive: false,
+    message: "",
+    positiveCallBack: () => {},
+    negativeCallBack: () => {},
+  });
   const addJenisBarang = StateContainer((state) => state.addJenisBarang);
   const addKategoriBarang = StateContainer((state) => state.addKategoriBarang);
   let jenis = StateContainer((state) => state.jenisBarang[0]);
   let kategori = StateContainer((state) => state.kategoriBarang[0]);
 
   useEffect(() => {
-    axios.get("http://localhost:4000/jenis-barang").then((response) => {
-      addJenisBarang(response.data);
-    });
-    axios.get("http://localhost:4000/kategori-barang").then((response) => {
-      addKategoriBarang(response.data);
-    });
+    axios
+      .get("http://localhost:4000/jenis-barang")
+      .then((response) => {
+        addJenisBarang(response.data);
+      })
+      .then(() => {
+        axios.get("http://localhost:4000/kategori-barang").then((response) => {
+          addKategoriBarang(response.data);
+        });
+      });
   }, []);
 
   if (jenis == undefined || kategori == undefined) return;
@@ -55,10 +64,10 @@ function ManageCategory() {
   let editKategoriModal = "";
   let tambahJenisModal = "";
   let tambahKategoriModal = "";
-  if (editJenisModalStatus.status) {
+  if (editJenisModalStatus.status && !alert.isActive) {
     editJenisModal = (
       <div
-        tabindex="-1"
+        tabIndex="-1"
         className="fixed bg-black bg-opacity-80 mx-auto top-0 left-0 right-0 bottom-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
       >
         <div className="absolute right-0 left-0 mx-auto top-[10%] max-w-md md:h-auto">
@@ -101,7 +110,7 @@ function ManageCategory() {
               >
                 <div>
                   <label
-                    for="nama"
+                    htmlFor="nama"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Nama Jenis
@@ -128,7 +137,7 @@ function ManageCategory() {
                 </div>
                 <div className="mr-3">
                   <label
-                    for="jenis-produk"
+                    htmlFor="jenis-produk"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Kategori
@@ -160,12 +169,42 @@ function ManageCategory() {
                     })}
                   </select>
                 </div>
-                <button
-                  type="submit"
-                  className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Simpan
-                </button>
+                <div className="flex justify-between">
+                  <button
+                    onClick={() => {
+                      setAlert({
+                        isActive: true,
+                        message: "yakin ingin hapus? ",
+                        positiveCallBack: () => {
+                          axios
+                            .get(
+                              `http://localhost:4000/delete-jenis/${editJenisModalStatus.jenis.id}`
+                            )
+                            .then(() => {
+                              window.location.reload();
+                            });
+                        },
+                        negativeCallBack: () => {
+                          setAlert({
+                            isActive: false,
+                            message: "",
+                            positiveCallBack: () => {},
+                            negativeCallBack: () => {},
+                          });
+                        },
+                      });
+                    }}
+                    className="w-[48%] text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                  >
+                    Hapus
+                  </button>
+                  <button
+                    type="submit"
+                    className="w-[48%] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    Simpan
+                  </button>
+                </div>
               </form>
             </div>
           </div>
@@ -173,10 +212,10 @@ function ManageCategory() {
       </div>
     );
   }
-  if (editKategoriModalStatus.status) {
+  if (editKategoriModalStatus.status && !alert.isActive) {
     editKategoriModal = (
       <div
-        tabindex="-1"
+        tabIndex="-1"
         className="fixed bg-black bg-opacity-80 mx-auto top-0 left-0 right-0 bottom-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
       >
         <div className="absolute right-0 left-0 mx-auto top-[10%] max-w-md md:h-auto">
@@ -218,7 +257,7 @@ function ManageCategory() {
               >
                 <div>
                   <label
-                    for="nama-kategori"
+                    htmlFor="nama-kategori"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Nama Kategori
@@ -247,12 +286,42 @@ function ManageCategory() {
                     required
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Simpan
-                </button>
+                <div className="flex justify-between">
+                  <a
+                    onClick={() => {
+                      setAlert({
+                        isActive: true,
+                        message: "yakin ingin hapus? ",
+                        positiveCallBack: () => {
+                          axios
+                            .get(
+                              `http://localhost:4000/delete-kategori/${editKategoriModalStatus.kategori.id}`
+                            )
+                            .then(() => {
+                              window.location.reload();
+                            });
+                        },
+                        negativeCallBack: () => {
+                          setAlert({
+                            isActive: false,
+                            message: "",
+                            positiveCallBack: () => {},
+                            negativeCallBack: () => {},
+                          });
+                        },
+                      });
+                    }}
+                    className="w-[48%] text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                  >
+                    Hapus
+                  </a>
+                  <button
+                    type="submit"
+                    className="w-[48%] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    Simpan
+                  </button>
+                </div>
               </form>
             </div>
           </div>
@@ -260,10 +329,10 @@ function ManageCategory() {
       </div>
     );
   }
-  if (tambahJenisModalStatus.status) {
+  if (tambahJenisModalStatus.status && !alert.isActive) {
     tambahJenisModal = (
       <div
-        tabindex="-1"
+        tabIndex="-1"
         className="fixed bg-black bg-opacity-80 mx-auto top-0 left-0 right-0 bottom-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
       >
         <div className="absolute right-0 left-0 mx-auto top-[10%] max-w-md md:h-auto">
@@ -305,7 +374,7 @@ function ManageCategory() {
               >
                 <div>
                   <label
-                    for="nama-tambah-jenis"
+                    htmlFor="nama-tambah-jenis"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Nama Jenis
@@ -329,7 +398,7 @@ function ManageCategory() {
                 </div>
                 <div className="mr-3">
                   <label
-                    for="jenis-produk"
+                    htmlFor="jenis-produk"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Kategori
@@ -371,10 +440,10 @@ function ManageCategory() {
       </div>
     );
   }
-  if (tambahKategoriModalStatus.status) {
+  if (tambahKategoriModalStatus.status && !alert.isActive) {
     tambahKategoriModal = (
       <div
-        tabindex="-1"
+        tabIndex="-1"
         className="fixed bg-black bg-opacity-80 mx-auto top-0 left-0 right-0 bottom-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
       >
         <div className="absolute right-0 left-0 mx-auto top-[10%] max-w-md md:h-auto">
@@ -415,7 +484,7 @@ function ManageCategory() {
               >
                 <div>
                   <label
-                    for="nama-tambah-kategori"
+                    htmlFor="nama-tambah-kategori"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Nama Kategori
@@ -458,6 +527,15 @@ function ManageCategory() {
         {editKategoriModal}
         {tambahJenisModal}
         {tambahKategoriModal}
+        {alert.isActive ? (
+          <Alert
+            alertMessage={alert.message}
+            positiveCallBack={alert.positiveCallBack}
+            negativeCallBack={alert.negativeCallBack}
+          />
+        ) : (
+          ""
+        )}
         <div className="m-3 flex">
           <a
             href="/administration-product"
