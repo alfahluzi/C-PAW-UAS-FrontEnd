@@ -1,7 +1,15 @@
+import axios from "axios";
 import React, { useState } from "react";
 import StateContainer from "../helper/StateContainer";
 import Alert from "./Alert";
-function AdminProductCard({ harga, kuantitas, nama, detail }) {
+function AdminProductCard({
+  id,
+  nama,
+  detail,
+  kuantitas,
+  harga,
+  foto = "default.jpg",
+}) {
   let modal = "";
   const [modalStatus, setmodalStatus] = useState(false);
   const jenisBarang = StateContainer((state) => state.jenisBarang[0]);
@@ -11,6 +19,16 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
     positive: () => {},
     negative: () => {},
   });
+  const [editProductFile, setEditProductFile] = useState();
+  const [editProduct, setEditProduct] = useState({
+    nama: nama,
+    detail: detail,
+    kuantitas: kuantitas,
+    harga: harga,
+    id_jenis: 0,
+    filename: "",
+  });
+  console.log(editProduct);
   if (modalStatus) {
     modal = (
       <div
@@ -40,7 +58,26 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
               <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
                 Edit Produk
               </h3>
-              <form className="space-y-6" action="#">
+              <form
+                className="space-y-6"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  var formdata = new FormData();
+                  formdata.append("id", id);
+                  formdata.append("nama", editProduct.nama);
+                  formdata.append("detail", editProduct.detail);
+                  formdata.append("kuantitas", editProduct.kuantitas);
+                  formdata.append("harga", editProduct.harga);
+                  formdata.append("id_jenis", editProduct.id_jenis);
+                  formdata.append("filename", editProduct.filename);
+                  formdata.append("file", editProductFile);
+                  axios
+                    .post(`http://localhost:4000/edit-produk`, formdata)
+                    .then((response) => {
+                      console.log(response);
+                    });
+                }}
+              >
                 <div>
                   <label
                     htmlFor="nama-produk"
@@ -49,12 +86,22 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
                     Nama Produk
                   </label>
                   <input
+                    onChange={(event) => {
+                      let val = event.target.value;
+                      setEditProduct({
+                        nama: val,
+                        detail: editProduct.detail,
+                        kuantitas: editProduct.kuantitas,
+                        harga: editProduct.harga,
+                        id_jenis: editProduct.id_jenis,
+                        filename: editProduct.filename,
+                      });
+                    }}
                     type="text"
                     name="nama-produk"
                     id="nama-produk"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    placeholder={nama}
-                    required
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:value-gray-400 dark:text-white"
+                    defaultValue={nama}
                   />
                 </div>
                 <div>
@@ -65,12 +112,22 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
                     Detail
                   </label>
                   <input
+                    onChange={(event) => {
+                      let val = event.target.value;
+                      setEditProduct({
+                        nama: editProduct.nama,
+                        detail: val,
+                        kuantitas: editProduct.kuantitas,
+                        harga: editProduct.harga,
+                        id_jenis: editProduct.id_jenis,
+                        filename: editProduct.filename,
+                      });
+                    }}
                     type="text"
                     name="detail-produk"
                     id="detail-produk"
-                    placeholder={detail}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    required
+                    defaultValue={detail}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:value-gray-400 dark:text-white"
                   />
                 </div>
                 <div className="flex justify-between">
@@ -82,12 +139,22 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
                       Kuantitas
                     </label>
                     <input
+                      onChange={(event) => {
+                        let val = event.target.value;
+                        setEditProduct({
+                          nama: editProduct.nama,
+                          detail: editProduct.detail,
+                          kuantitas: val,
+                          harga: editProduct.harga,
+                          id_jenis: editProduct.id_jenis,
+                          filename: editProduct.filename,
+                        });
+                      }}
                       type="number"
                       name="kuantitas-produk"
                       id="kuantitas-produk"
-                      placeholder={kuantitas}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                      required
+                      defaultValue={kuantitas}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:value-gray-400 dark:text-white"
                     />
                   </div>
                   <div>
@@ -98,16 +165,26 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
                       Harga
                     </label>
                     <input
+                      onChange={(event) => {
+                        let val = event.target.value;
+                        setEditProduct({
+                          nama: editProduct.nama,
+                          detail: editProduct.detail,
+                          kuantitas: editProduct.kuantitas,
+                          harga: val,
+                          id_jenis: editProduct.id_jenis,
+                          filename: editProduct.filename,
+                        });
+                      }}
                       type="number"
                       name="harga-produk"
                       id="harga-produk"
-                      placeholder={harga}
+                      defaultValue={harga}
                       className="bg-gray-50 border border-gray-300 
                       text-gray-900 text-sm rounded-lg 
                       focus:ring-blue-500 focus:border-blue-500 
                       block w-full p-2.5 
-                      dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                      required
+                      dark:bg-gray-600 dark:border-gray-500 dark:value-gray-400 dark:text-white"
                     />
                   </div>
                 </div>
@@ -120,21 +197,28 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
                       Jenis
                     </label>
                     <select
+                      onChange={(event) => {
+                        let val = event.target.value;
+                        setEditProduct({
+                          nama: editProduct.nama,
+                          detail: editProduct.detail,
+                          kuantitas: editProduct.kuantitas,
+                          harga: editProduct.harga,
+                          id_jenis: val,
+                          filename: editProduct.filename,
+                        });
+                      }}
                       id="jenis-produk"
                       className="bg-gray-50 border border-gray-300 
                       text-gray-900 text-sm rounded-lg block w-full p-2.5 
                       focus:ring-blue-500 focus:border-blue-500 
-                      dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      dark:bg-gray-700 dark:border-gray-600 dark:value-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
                       <option selected disabled>
                         Pilih Jenis
                       </option>
                       {jenisBarang.map((jenis, index) => {
-                        return (
-                          <option value={jenis.Jenis_barang_id}>
-                            {jenis.jenis}
-                          </option>
-                        );
+                        return <option value={jenis.id}>{jenis.jenis}</option>;
                       })}
                     </select>
                   </div>
@@ -146,23 +230,43 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
                       Foto
                     </label>
                     <input
+                      onChange={(event) => {
+                        let val = event.target.files[0];
+                        console.log(val);
+                        setEditProductFile(val);
+                        setEditProduct({
+                          nama: editProduct.nama,
+                          detail: editProduct.detail,
+                          kuantitas: editProduct.kuantitas,
+                          harga: editProduct.harga,
+                          id_jenis: editProduct.id_jenis,
+                          filename: val.name,
+                        });
+                      }}
                       id="file_input"
                       type="file"
                       className="block w-full text-sm text-gray-900 border border-gray-300 
                       rounded-lg cursor-pointer bg-gray-50 p-2
                       dark:text-gray-400 focus:outline-none dark:bg-gray-700 
-                      dark:border-gray-600 dark:placeholder-gray-400"
+                      dark:border-gray-600 dark:value-gray-400"
                     />
                   </div>
                 </div>
                 <div className="flex justify-between">
                   <button
-                    onClick={() => {
+                    onClick={(event) => {
+                      event.preventDefault();
                       setAlert({
                         status: true,
                         message: "Yakin ingin Hapus?",
                         positive: () => {
-                          console.log("hapus");
+                          axios
+                            .post("http://localhost:4000/hapus-produk", {
+                              id: id,
+                            })
+                            .then((response) => {
+                              window.location.reload();
+                            });
                         },
                         negative: () => {
                           setAlert({
@@ -208,7 +312,7 @@ function AdminProductCard({ harga, kuantitas, nama, detail }) {
       <a href="#">
         <img
           className="object-cover p-4 rounded-t-lg w-[100%] h-44"
-          src="https://www.apple.com/id/apple-watch-se/images/overview/hero/hero__fmx18j9bq0ya_large.jpg"
+          src={`http://localhost:4000/images/${foto}`}
           alt="product image"
         />
       </a>

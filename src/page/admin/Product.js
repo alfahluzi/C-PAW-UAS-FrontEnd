@@ -13,8 +13,9 @@ function Product() {
     kuantitas: 0,
     harga: 0,
     id_jenis: 0,
-    file: undefined,
+    filename: "",
   });
+  const [newProductFile, setNewProductFile] = useState();
 
   const addJenisBarang = StateContainer((state) => state.addJenisBarang);
   const addKategoriBarang = StateContainer((state) => state.addKategoriBarang);
@@ -67,23 +68,21 @@ function Product() {
               <form
                 className="space-y-6"
                 onSubmit={(event) => {
-                  const formData = new FormData();
-                  formData.append("nama", newProduct.nama);
-                  formData.append("detail", newProduct.detail);
-                  formData.append("kuantitas", newProduct.kuantitas);
-                  formData.append("harga", newProduct.harga);
-                  formData.append("id_jenis", newProduct.id_jenis);
-                  formData.append("file", newProduct.file);
-                  axios.post(`http://localhost:4000/tambah-produk`, formData);
+                  var formdata = new FormData();
 
-                  let asd = {
-                    nama: newProduct.nama,
-                    detail: newProduct.detail,
-                    kuantitas: newProduct.kuantitas,
-                    harga: newProduct.harga,
-                    id_jenis: newProduct.id_jenis,
-                    file: newProduct.file,
-                  };
+                  formdata.append("nama", newProduct.nama);
+                  formdata.append("detail", newProduct.detail);
+                  formdata.append("kuantitas", newProduct.kuantitas);
+                  formdata.append("harga", newProduct.harga);
+                  formdata.append("id_jenis", newProduct.id_jenis);
+                  formdata.append("filename", newProduct.filename);
+                  formdata.append("file", newProductFile);
+                  axios
+                    .post(`http://localhost:4000/tambah-produk`, formdata)
+                    .then((data) => {
+                      console.log("gege");
+                      console.log(data);
+                    });
                 }}
               >
                 <div>
@@ -102,7 +101,7 @@ function Product() {
                         kuantitas: newProduct.kuantitas,
                         harga: newProduct.harga,
                         id_jenis: newProduct.id_jenis,
-                        file: newProduct.file,
+                        filename: newProduct.filename,
                       });
                     }}
                     type="text"
@@ -129,7 +128,7 @@ function Product() {
                         kuantitas: newProduct.kuantitas,
                         harga: newProduct.harga,
                         id_jenis: newProduct.id_jenis,
-                        file: newProduct.file,
+                        filename: newProduct.filename,
                       });
                     }}
                     type="text"
@@ -157,7 +156,7 @@ function Product() {
                           kuantitas: val,
                           harga: newProduct.harga,
                           id_jenis: newProduct.id_jenis,
-                          file: newProduct.file,
+                          filename: newProduct.filename,
                         });
                       }}
                       type="number"
@@ -184,7 +183,7 @@ function Product() {
                           kuantitas: newProduct.kuantitas,
                           harga: val,
                           id_jenis: newProduct.id_jenis,
-                          file: newProduct.file,
+                          filename: newProduct.filename,
                         });
                       }}
                       type="number"
@@ -217,7 +216,7 @@ function Product() {
                           kuantitas: newProduct.kuantitas,
                           harga: newProduct.harga,
                           id_jenis: val,
-                          file: newProduct.file,
+                          filename: newProduct.filename,
                         });
                       }}
                       id="jenis-produk"
@@ -245,13 +244,14 @@ function Product() {
                       onChange={(event) => {
                         let val = event.target.files[0];
                         console.log(val);
+                        setNewProductFile(val);
                         setNewProduct({
                           nama: newProduct.nama,
                           detail: newProduct.detail,
                           kuantitas: newProduct.kuantitas,
                           harga: newProduct.harga,
                           id_jenis: newProduct.id_jenis,
-                          file: val,
+                          filename: val.name,
                         });
                       }}
                       id="file_input"
@@ -363,10 +363,12 @@ function Product() {
               return (
                 <AdminProductCard
                   key={index}
+                  id={produk.Barang_id}
                   harga={produk.harga}
                   nama={produk.nama}
                   kuantitas={produk.kuantitas}
                   detail={produk.detail}
+                  foto={produk.foto}
                 />
               );
             })}
