@@ -3,13 +3,21 @@ import Dashboard from "./page/admin/Dashboard";
 import ManageCategory from "./page/admin/ManageCategory";
 import Product from "./page/admin/Product";
 import Transaction from "./page/admin/Transaction";
+import DashboardUser from "./page/user/DashboardUser";
+import RegisterUser from "./page/user/RegisterUser";
+import LoginUser from "./page/user/LoginUser";
+import Checkout from "./page/user/Checkout";
 import "./style/App.css";
+
 
 function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" />
+        <Route path="/RegisterUser" element={<RegisterUser />} />
+        <Route path="/LoginUser" element={<LoginUser />} />
+        <Route path="/Checkout" element={<Checkout/>} />
+        <Route path="/Dashboard"  element={<DashboardUser  />}/>
         <Route path="/administration" element={<Dashboard />} />
         <Route path="/administration-transaction" element={<Transaction />} />
         <Route path="/administration-product" element={<Product />} />
