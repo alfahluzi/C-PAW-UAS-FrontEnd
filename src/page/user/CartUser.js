@@ -5,7 +5,7 @@ import Logo from "../../image/shopping.png";
 import search from "../../image/search-zoom.png";
 import axios from "axios";
 
-function DashboardUser() {
+function CartUser() {
   const [listProduk, setlistProduk] = useState({ first: true, data: [] });
   
   if (listProduk.first) {
@@ -52,4 +52,4 @@ function DashboardUser() {
     </main>
    )
 }
-export default DashboardUser
+export default CartUser
