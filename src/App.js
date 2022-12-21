@@ -4,6 +4,7 @@ import ManageCategory from "./page/admin/ManageCategory";
 import Product from "./page/admin/Product";
 import Transaction from "./page/admin/Transaction";
 import DashboardUser from "./page/user/DashboardUser";
+import CartUser from "./page/user/CartUser";
 import RegisterUser from "./page/user/RegisterUser";
 import LoginUser from "./page/user/LoginUser";
 import Checkout from "./page/user/Checkout";
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<LoginUser />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/dashboard" element={<DashboardUser />} />
+        <Route path="/cart" element={<CartUser />} />
         <Route path="/administration" element={<Dashboard />} />
         <Route path="/administration-transaction" element={<Transaction />} />
         <Route path="/administration-product" element={<Product />} />

@@ -25,7 +25,11 @@ function DashboardUser() {
        <img src={search} alt="" className='search-icon' />
        </div>
        <div className="btn-shop">
+        <a
+          href="/cart"
+        >
        <img src={Logo} alt="" className='shop' />
+       </a>
        </div>
      </div>
      <main className="content">

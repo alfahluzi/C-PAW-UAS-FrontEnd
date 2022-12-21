@@ -1,6 +1,7 @@
 import { Button } from 'bootstrap'
 import React, { useState }  from 'react'
 import "../../style/Dashboard.css"
+import "../../style/Cart.css"
 import Logo from "../../image/shopping.png";
 import search from "../../image/search-zoom.png";
 import axios from "axios";
@@ -30,23 +31,99 @@ function CartUser() {
      </div>
      <main className="content">
        <section className="container-content">
-           {listProduk.data &&
-            listProduk.data.map((produk, index) => {
-              return (
-                <div className="card">
-                  <img src="{produk.foto}" />
-                  <div class="card-konten">
-                              <div class="text-konten">
-                                  <h5>{produk.nama}</h5>
-                                  <div className="tambah">
-                                    <button className="btn-tambah">Tambah</button>
-                                  </div>
-                              </div>
-      
-                          </div>
+            <div class="shopping-cart">
+                
+                <div class="title">
+                    Shopping Bag
                 </div>
-              );
-            })}
+                
+                <div class="item">
+                    <div class="buttons">
+                    <span class="delete-btn"></span>
+                    <span class="like-btn"></span>
+                    </div>
+                
+                    <div class="image">
+                    <img src="item-1.png" alt="" />
+                    </div>
+                
+                    <div class="description">
+                    <span>Common Projects</span>
+                    <span>Bball High</span>
+                    <span>White</span>
+                    </div>
+                
+                    <div class="quantity">
+                    <button class="plus-btn" type="button" name="button">
+                        <img src="plus.svg" alt="" />
+                    </button>
+                    <input type="text" name="name" value="1"/>
+                    <button class="minus-btn" type="button" name="button">
+                        <img src="minus.svg" alt="" />
+                    </button>
+                    </div>
+                
+                    <div class="total-price">$549</div>
+                </div>
+                
+                <div class="item">
+                    <div class="buttons">
+                    <span class="delete-btn"></span>
+                    <span class="like-btn"></span>
+                    </div>
+                
+                    <div class="image">
+                    <img src="item-2.png" alt=""/>
+                    </div>
+                
+                    <div class="description">
+                    <span>Maison Margiela</span>
+                    <span>Future Sneakers</span>
+                    <span>White</span>
+                    </div>
+                
+                    <div class="quantity">
+                    <button class="plus-btn" type="button" name="button">
+                        <img src="plus.svg" alt="" />
+                    </button>
+                    <input type="text" name="name" value="1"/>
+                    <button class="minus-btn" type="button" name="button">
+                        <img src="minus.svg" alt="" />
+                    </button>
+                    </div>
+                
+                    <div class="total-price">$870</div>
+                </div>
+                
+                <div class="item">
+                    <div class="buttons">
+                    <span class="delete-btn"></span>
+                    <span class="like-btn"></span>
+                    </div>
+                
+                    <div class="image">
+                    <img src="item-3.png" alt="" />
+                    </div>
+                
+                    <div class="description">
+                    <span>Our Legacy</span>
+                    <span>Brushed Scarf</span>
+                    <span>Brown</span>
+                    </div>
+                
+                    <div class="quantity">
+                    <button class="plus-btn" type="button" name="button">
+                        <img src="plus.svg" alt="" />
+                    </button>
+                    <input type="text" name="name" value="1"/>
+                    <button class="minus-btn" type="button" name="button">
+                        <img src="minus.svg" alt="" />
+                    </button>
+                    </div>
+                
+                    <div class="total-price">$349</div>
+                </div>
+                </div>
        </section>
      </main>
     </main>
