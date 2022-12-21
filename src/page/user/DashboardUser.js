@@ -1,5 +1,6 @@
 import { Button } from 'bootstrap'
 import React, { useState }  from 'react'
+import { Link } from 'react-router-dom'
 import "../../style/Dashboard.css"
 import Logo from "../../image/shopping.png";
 import search from "../../image/search-zoom.png";
@@ -25,11 +26,9 @@ function DashboardUser() {
        <img src={search} alt="" className='search-icon' />
        </div>
        <div className="btn-shop">
-        <a
-          href="/cart"
-        >
+       <Link to={'/cart'}>
        <img src={Logo} alt="" className='shop' />
-       </a>
+       </Link>
        </div>
      </div>
      <main className="content">
@@ -38,10 +37,11 @@ function DashboardUser() {
             listProduk.data.map((produk, index) => {
               return (
                 <div className="card">
-                  <img src="{produk.foto}" />
+                  <img src={`http://localhost:4000/images/${produk.foto}`} />
                   <div class="card-konten">
                               <div class="text-konten">
-                                  <h5>{produk.nama}</h5>
+                                  <h4>{produk.nama}</h4>
+                                  <h5>Rp. {produk.harga}</h5>
                                   <div className="tambah">
                                     <button className="btn-tambah">Tambah</button>
                                   </div>
