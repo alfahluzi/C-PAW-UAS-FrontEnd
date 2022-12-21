@@ -10,15 +10,14 @@ import Checkout from "./page/user/Checkout";
 import LaporanPenjualan from "./page/admin/LaporanPenjualan";
 import "./style/App.css";
 
-
 function App() {
   return (
     <div>
       <Routes>
-        <Route path="/RegisterUser" element={<RegisterUser />} />
-        <Route path="/LoginUser" element={<LoginUser />} />
-        <Route path="/Checkout" element={<Checkout/>} />
-        <Route path="/Dashboard"  element={<DashboardUser  />}/>
+        <Route path="/registration" element={<RegisterUser />} />
+        <Route path="/login" element={<LoginUser />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/dashboard" element={<DashboardUser />} />
         <Route path="/administration" element={<Dashboard />} />
         <Route path="/administration-transaction" element={<Transaction />} />
         <Route path="/administration-product" element={<Product />} />
