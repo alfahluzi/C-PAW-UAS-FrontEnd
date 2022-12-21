@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Dashboard from "./page/admin/Dashboard";
+import Dashboard from "./page/admin/dashboard";
 import ManageCategory from "./page/admin/ManageCategory";
 import Product from "./page/admin/Product";
 import Transaction from "./page/admin/Transaction";
