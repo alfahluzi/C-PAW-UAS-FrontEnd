@@ -7,6 +7,7 @@ import DashboardUser from "./page/user/DashboardUser";
 import RegisterUser from "./page/user/RegisterUser";
 import LoginUser from "./page/user/LoginUser";
 import Checkout from "./page/user/Checkout";
+import LaporanPenjualan from "./page/admin/LaporanPenjualan";
 import "./style/App.css";
 
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/administration" element={<Dashboard />} />
         <Route path="/administration-transaction" element={<Transaction />} />
         <Route path="/administration-product" element={<Product />} />
+        <Route path="/administration-laporan" element={<LaporanPenjualan />} />
         <Route
           path="/administration-product-category"
           element={<ManageCategory />}
