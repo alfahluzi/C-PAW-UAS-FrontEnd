@@ -87,7 +87,7 @@ main{
 }
 .btn-tambah{
     height: 35px;
-    width: 100%;
+    width: 100% !important;
     background: linear-gradient(0deg, #fc5931, #fc5931) no-repeat right bottom / 0 var(--bg-h);
     transition: background-size 500ms;
      --bg-h: 100%;

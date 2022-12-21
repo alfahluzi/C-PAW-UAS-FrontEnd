@@ -22,7 +22,7 @@ function DashboardUser() {
        <h1 className="logo-left">Dash<span>board</span></h1>
        </div>
        <div className="table-search">
-       <input type="text" placeholder="Daftar dan Dapat Voucher Gratis" className="search" />
+       <input type="text" placeholder="Cari ....." className="search" />
        <img src={search} alt="" className='search-icon' />
        </div>
        <div className="btn-shop">

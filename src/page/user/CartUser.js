@@ -55,11 +55,11 @@ function CartUser() {
                 
                     <div class="quantity">
                     <button class="plus-btn" type="button" name="button">
-                        <img src="plus.svg" alt="" />
+                        <img src="https://w7.pngwing.com/pngs/202/389/png-transparent-computer-icons-icon-design-plus-photography-logo-plus.png" alt="" />
                     </button>
                     <input type="text" name="name" value="1"/>
                     <button class="minus-btn" type="button" name="button">
-                        <img src="minus.svg" alt="" />
+                        <img src="https://cdn-icons-png.flaticon.com/512/659/659892.png" alt="" />
                     </button>
                     </div>
                 
@@ -84,11 +84,11 @@ function CartUser() {
                 
                     <div class="quantity">
                     <button class="plus-btn" type="button" name="button">
-                        <img src="plus.svg" alt="" />
+                        <img src="https://w7.pngwing.com/pngs/202/389/png-transparent-computer-icons-icon-design-plus-photography-logo-plus.png" alt="" />
                     </button>
                     <input type="text" name="name" value="1"/>
                     <button class="minus-btn" type="button" name="button">
-                        <img src="minus.svg" alt="" />
+                        <img src="https://cdn-icons-png.flaticon.com/512/659/659892.png" alt="" />
                     </button>
                     </div>
                 
@@ -113,11 +113,11 @@ function CartUser() {
                 
                     <div class="quantity">
                     <button class="plus-btn" type="button" name="button">
-                        <img src="plus.svg" alt="" />
+                        <img src="https://w7.pngwing.com/pngs/202/389/png-transparent-computer-icons-icon-design-plus-photography-logo-plus.png" alt="" />
                     </button>
                     <input type="text" name="name" value="1"/>
                     <button class="minus-btn" type="button" name="button">
-                        <img src="minus.svg" alt="" />
+                        <img src="https://cdn-icons-png.flaticon.com/512/659/659892.png" alt="" />
                     </button>
                     </div>
                 
@@ -125,6 +125,7 @@ function CartUser() {
                 </div>
                 </div>
        </section>
+       <center> <button class="btn-primary" type="button" onClick={()=>{ alert('Pembayaran Berhasil!'); }}>Bayar Sekarang</button></center>
      </main>
     </main>
    )

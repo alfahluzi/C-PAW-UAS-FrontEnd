@@ -143,3 +143,24 @@
     color: #43484D;
     font-weight: 300;
   }
+
+  .btn-primary {
+    margin: 10px;
+    width: 200px !important;
+    height: 50px;
+    padding: 5px;
+    background: #ff8e72 !important;
+    color: #fff;
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: 0.5s;
+}
+.btn-primary:hover {
+    background: #fc5931 !important;
+    color: #fff;
+    transition: 0.5s;
+}
+.btn-primary:focus {
+    box-shadow: 0 0 0 5px rgba(0, 85, 255, 0.5)
+}
