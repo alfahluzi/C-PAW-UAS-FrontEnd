@@ -38,7 +38,7 @@ function DashboardUser() {
             }
           }}
           placeholder="Tulis nama produk ....."
-          className=""
+          className="w-full"
         />
       </div>
       <main className="content">

@@ -61,6 +61,7 @@ function AdminProductCard({
               <form
                 className="space-y-6"
                 onSubmit={(event) => {
+                  event.preventDefault();
                   var formdata = new FormData();
                   formdata.append("id", id);
                   formdata.append("nama", editProduct.nama);
@@ -74,6 +75,7 @@ function AdminProductCard({
                     .post(`http://localhost:4000/edit-produk`, formdata)
                     .then((response) => {
                       console.log(response);
+                      window.location.reload();
                     });
                 }}
               >

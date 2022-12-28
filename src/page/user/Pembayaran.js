@@ -54,7 +54,8 @@ function Pembayaran() {
         </div>
         <div className="p-5 w-[25vw] mx-auto">
           <form
-            onSubmit={() => {
+            onSubmit={(e) => {
+              e.preventDefault();
               var formdata = new FormData();
               let random =
                 Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111;
@@ -67,6 +68,7 @@ function Pembayaran() {
                 .post(`http://localhost:4000/bayar`, formdata)
                 .then((response) => {
                   console.log(response);
+                  window.location.reload();
                 });
             }}
           >

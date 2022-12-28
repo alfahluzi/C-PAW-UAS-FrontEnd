@@ -68,6 +68,7 @@ function Product() {
               <form
                 className="space-y-6"
                 onSubmit={(event) => {
+                  event.preventDefault();
                   var formdata = new FormData();
 
                   formdata.append("nama", newProduct.nama);
@@ -82,6 +83,7 @@ function Product() {
                     .then((data) => {
                       console.log("gege");
                       console.log(data);
+                      window.location.reload();
                     });
                 }}
               >
