@@ -48,9 +48,9 @@ function CartUser() {
                     </div>
                 
                     <div class="description">
-                    <span>Common Projects</span>
-                    <span>Bball High</span>
-                    <span>White</span>
+                    <span></span>
+                    <span>Beras</span>
+                    <span></span>
                     </div>
                 
                     <div class="quantity">
@@ -63,7 +63,7 @@ function CartUser() {
                     </button>
                     </div>
                 
-                    <div class="total-price">$549</div>
+                    <div class="total-price">Rp. 120.000</div>
                 </div>
                 
                 <div class="item">
@@ -77,9 +77,9 @@ function CartUser() {
                     </div>
                 
                     <div class="description">
-                    <span>Maison Margiela</span>
-                    <span>Future Sneakers</span>
-                    <span>White</span>
+                    <span></span>
+                    <span>Daging Sapi</span>
+                    <span></span>
                     </div>
                 
                     <div class="quantity">
@@ -92,7 +92,7 @@ function CartUser() {
                     </button>
                     </div>
                 
-                    <div class="total-price">$870</div>
+                    <div class="total-price">Rp. 12.000</div>
                 </div>
                 
                 <div class="item">
@@ -106,9 +106,9 @@ function CartUser() {
                     </div>
                 
                     <div class="description">
-                    <span>Our Legacy</span>
-                    <span>Brushed Scarf</span>
-                    <span>Brown</span>
+                    <span></span>
+                    <span>Susu Sapi</span>
+                    <span></span>
                     </div>
                 
                     <div class="quantity">
@@ -121,7 +121,7 @@ function CartUser() {
                     </button>
                     </div>
                 
-                    <div class="total-price">$349</div>
+                    <div class="total-price">Rp. 8000</div>
                 </div>
                 </div>
        </section>
