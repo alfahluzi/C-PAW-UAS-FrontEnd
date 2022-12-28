@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Dashboard from "./page/admin/dashboard";
+import Dashboard from "./page/admin/Dashboard";
 import ManageCategory from "./page/admin/ManageCategory";
 import Product from "./page/admin/Product";
 import Transaction from "./page/admin/Transaction";
@@ -10,12 +10,14 @@ import LoginUser from "./page/user/LoginUser";
 import Checkout from "./page/user/Checkout";
 import LaporanPenjualan from "./page/admin/LaporanPenjualan";
 import "./style/App.css";
+import Pembayaran from "./page/user/Pembayaran";
 
 function App() {
   return (
     <div>
       <Routes>
         <Route path="/registration" element={<RegisterUser />} />
+        <Route path="/pembayaran" element={<Pembayaran />} />
         <Route path="/login" element={<LoginUser />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/dashboard" element={<DashboardUser />} />

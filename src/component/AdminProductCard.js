@@ -61,7 +61,6 @@ function AdminProductCard({
               <form
                 className="space-y-6"
                 onSubmit={(event) => {
-                  event.preventDefault();
                   var formdata = new FormData();
                   formdata.append("id", id);
                   formdata.append("nama", editProduct.nama);

@@ -3,7 +3,7 @@ import AdminSidebar from "../../component/AdminSidebar";
 import axios from "axios";
 import Alert from "../../component/Alert";
 class ObjectData {
-  constructor(id, nama, kontak, waktu, resi, item, total, action) {
+  constructor(id, nama, kontak, waktu, resi, item, total, action, bukti) {
     return {
       id: id,
       kustomer: {
@@ -15,6 +15,7 @@ class ObjectData {
       item: item,
       total: total,
       action: action,
+      bukti: bukti,
     };
   }
 }
@@ -40,6 +41,8 @@ function Transaction() {
         axios
           .get("http://localhost:4000/data-konfirmasi-pembayaran")
           .then((response) => {
+            console.log("res");
+            console.log(response);
             let newData = [];
             response.data.map((dat) => {
               let arrItem = [];
@@ -55,7 +58,8 @@ function Transaction() {
                   dat.resi,
                   arrItem,
                   dat.total,
-                  "Konfirmasi"
+                  "Konfirmasi",
+                  dat.bukti
                 )
               );
             });
@@ -81,7 +85,8 @@ function Transaction() {
                 dat.resi,
                 arrItem,
                 dat.total,
-                "Lanjutkan"
+                "Lanjutkan",
+                ""
               )
             );
           });
@@ -107,6 +112,7 @@ function Transaction() {
                 dat.resi,
                 arrItem,
                 dat.total,
+                "",
                 ""
               )
             );
@@ -132,7 +138,9 @@ function Transaction() {
                 dat.waktu,
                 dat.resi,
                 arrItem,
-                dat.total
+                dat.total,
+                "",
+                ""
               )
             );
           });
@@ -145,13 +153,17 @@ function Transaction() {
         break;
     }
   }, [tab]);
-  function setMessage(action, resi) {
+
+  console.log("Data");
+  console.log(data);
+
+  function setMessage(action, resi, foto) {
     console.log(action);
     if (action == "Konfirmasi") {
       return (
         <div>
           Konfirmasi pesanan {resi}?
-          <img src="https://1.bp.blogspot.com/-vRxyZBWkyb4/Xn6k2sMrXuI/AAAAAAAAGog/Ay9PBsRutbo3Q6PcL6pXjsc-r-5MT9tLwCLcBGAsYHQ/s1600/buzzbreak%2Bbayar%2Blewat%2BDANA.png" />
+          <img src={`http://localhost:4000/images/${foto}`} />
         </div>
       );
     } else if (action == "Lanjutkan") {
@@ -352,6 +364,8 @@ function Transaction() {
                 </thead>
                 <tbody>
                   {data.map((dat, i) => {
+                    console.log("dat");
+                    console.log(dat);
                     return (
                       <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th
@@ -384,7 +398,7 @@ function Transaction() {
                         <td className="p-2 ">
                           <img
                             className="object-cover p-4 rounded-t-lg w-[120px] h-[120px]"
-                            src="https://www.apple.com/id/apple-watch-se/images/overview/hero/hero__fmx18j9bq0ya_large.jpg"
+                            src={`http://localhost:4000/images/${dat.bukti}`}
                             alt="product image"
                           />
                         </td>
@@ -394,7 +408,11 @@ function Transaction() {
                             onClick={() => {
                               setAlert({
                                 isActive: true,
-                                message: setMessage(dat.action, dat.resi),
+                                message: setMessage(
+                                  dat.action,
+                                  dat.resi,
+                                  dat.bukti
+                                ),
                                 positiveCallBack: () => {
                                   if (dat.action == "Konfirmasi") {
                                     axios

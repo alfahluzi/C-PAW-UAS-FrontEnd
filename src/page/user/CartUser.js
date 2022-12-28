@@ -1,133 +1,106 @@
-import { Button } from 'bootstrap'
-import React, { useState }  from 'react'
-import "../../style/Dashboard.css"
-import "../../style/Cart.css"
-import Logo from "../../image/shopping.png";
-import search from "../../image/search-zoom.png";
+import React, { useState } from "react";
+import "../../style/Dashboard.css";
+import "../../style/Cart.css";
 import axios from "axios";
-
+import UserTopbar from "../../component/UserTopbar";
+import { Navigate } from "react-router-dom";
 function CartUser() {
   const [listProduk, setlistProduk] = useState({ first: true, data: [] });
-  
-  if (listProduk.first) {
-    axios.get("http://localhost:4000/barang").then((response) => {
-      setlistProduk({ first: false, data: response.data });
-    });
-  }
 
+  if (listProduk.first) {
+    axios
+      .post("http://localhost:4000/keranjang", { akun_id: 1 })
+      .then((response) => {
+        setlistProduk({ first: false, data: response.data });
+      });
+  }
+  console.log(listProduk);
+  let totalHarga = 0;
+  listProduk.data.map((produk) => {
+    totalHarga += produk.harga * produk.kuantitas;
+  });
+  console.log(alert);
   return (
     <main>
-     <div className="header-top">
-       <div className="logo">
-       <h1 className="logo-left">Dash<span>board</span></h1>
-       </div>
-       <div className="table-search">
-       <input type="text" placeholder="Daftar dan Dapat Voucher Gratis" className="search" />
-       <img src={search} alt="" className='search-icon' />
-       </div>
-       <div className="btn-shop">
-       <img src={Logo} alt="" className='shop' />
-       </div>
-     </div>
-     <main className="content">
-       <section className="container-content">
-            <div class="shopping-cart">
-                
-                <div class="title">
-                    Shopping Bag
+      <UserTopbar />
+      <main className="content">
+        <section className="container-content">
+          <div className="w-[60vw] mx-auto">
+            <div className="text-xl title ">Keranjang</div>
+            {listProduk.data.map((produk, index) => {
+              return (
+                <div className="my-3 px-2 border-b-2 rounded-2">
+                  <div className="flex">
+                    <img
+                      alt=""
+                      className="max-w-[150px] p-2"
+                      src={`http://localhost:4000/images/${produk.foto}`}
+                    />
+                    <div className="">
+                      <p>{produk.nama}</p>
+                      <p>{produk.detail}</p>
+                    </div>
+                    <div className="ml-auto mr-2">{produk.kuantitas}</div>
+                    <div className=" mr-2">x Rp{produk.harga}</div>
+                    <div className=" mr-5">
+                      = Rp{produk.harga * produk.kuantitas}
+                    </div>
+                    <button
+                      onClick={() => {
+                        axios
+                          .post("http://localhost:4000/edit-keranjang", {
+                            akun_id: 1,
+                            barang_id: produk.Barang_id,
+                            action: "tambah",
+                          })
+                          .then(() => {
+                            window.location.reload();
+                          });
+                      }}
+                      type="button"
+                      className="text-white h-fit w-fit bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 text-lg rounded-md px-2  mx-1 mb-4 "
+                    >
+                      +
+                    </button>
+                    <button
+                      onClick={() => {
+                        let act = "kurang";
+                        if (produk.kuantitas <= 1) act = "hapus";
+                        axios
+                          .post("http://localhost:4000/edit-keranjang", {
+                            akun_id: 1,
+                            barang_id: produk.Barang_id,
+                            action: act,
+                          })
+                          .then(() => {
+                            window.location.reload();
+                          });
+                      }}
+                      type="button"
+                      className="text-white h-fit w-fit bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 text-lg rounded-md px-2  mx-1 mb-4 "
+                    >
+                      -
+                    </button>
+                  </div>
                 </div>
-                
-                <div class="item">
-                    <div class="buttons">
-                    <span class="delete-btn"></span>
-                    <span class="like-btn"></span>
-                    </div>
-                
-                    <div class="image">
-                    <img src="item-1.png" alt="" />
-                    </div>
-                
-                    <div class="description">
-                    <span>Common Projects</span>
-                    <span>Bball High</span>
-                    <span>White</span>
-                    </div>
-                
-                    <div class="quantity">
-                    <button class="plus-btn" type="button" name="button">
-                        <img src="https://w7.pngwing.com/pngs/202/389/png-transparent-computer-icons-icon-design-plus-photography-logo-plus.png" alt="" />
-                    </button>
-                    <input type="text" name="name" value="1"/>
-                    <button class="minus-btn" type="button" name="button">
-                        <img src="https://cdn-icons-png.flaticon.com/512/659/659892.png" alt="" />
-                    </button>
-                    </div>
-                
-                    <div class="total-price">$549</div>
-                </div>
-                
-                <div class="item">
-                    <div class="buttons">
-                    <span class="delete-btn"></span>
-                    <span class="like-btn"></span>
-                    </div>
-                
-                    <div class="image">
-                    <img src="item-2.png" alt=""/>
-                    </div>
-                
-                    <div class="description">
-                    <span>Maison Margiela</span>
-                    <span>Future Sneakers</span>
-                    <span>White</span>
-                    </div>
-                
-                    <div class="quantity">
-                    <button class="plus-btn" type="button" name="button">
-                        <img src="https://w7.pngwing.com/pngs/202/389/png-transparent-computer-icons-icon-design-plus-photography-logo-plus.png" alt="" />
-                    </button>
-                    <input type="text" name="name" value="1"/>
-                    <button class="minus-btn" type="button" name="button">
-                        <img src="https://cdn-icons-png.flaticon.com/512/659/659892.png" alt="" />
-                    </button>
-                    </div>
-                
-                    <div class="total-price">$870</div>
-                </div>
-                
-                <div class="item">
-                    <div class="buttons">
-                    <span class="delete-btn"></span>
-                    <span class="like-btn"></span>
-                    </div>
-                
-                    <div class="image">
-                    <img src="item-3.png" alt="" />
-                    </div>
-                
-                    <div class="description">
-                    <span>Our Legacy</span>
-                    <span>Brushed Scarf</span>
-                    <span>Brown</span>
-                    </div>
-                
-                    <div class="quantity">
-                    <button class="plus-btn" type="button" name="button">
-                        <img src="https://w7.pngwing.com/pngs/202/389/png-transparent-computer-icons-icon-design-plus-photography-logo-plus.png" alt="" />
-                    </button>
-                    <input type="text" name="name" value="1"/>
-                    <button class="minus-btn" type="button" name="button">
-                        <img src="https://cdn-icons-png.flaticon.com/512/659/659892.png" alt="" />
-                    </button>
-                    </div>
-                
-                    <div class="total-price">$349</div>
-                </div>
-                </div>
-       </section>
-       <center> <button class="btn-primary" type="button" onClick={()=>{ alert('Pembayaran Berhasil!'); }}>Bayar Sekarang</button></center>
-     </main>
+              );
+            })}
+            <div className="w-fit ml-auto mr-5 text-xl font-semibold">
+              Total : Rp{totalHarga}
+            </div>
+          </div>
+        </section>
+        <center>
+          <a
+            className="py-2 px-[50px] text-xs font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 "
+            type="button"
+            href="/pembayaran"
+          >
+            Bayar
+          </a>
+        </center>
+      </main>
     </main>
-   )
+  );
 }
-export default CartUser
+export default CartUser;
